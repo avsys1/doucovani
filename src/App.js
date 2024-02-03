@@ -1,10 +1,14 @@
 import React from "react";
-import FrontPage from "./components/FrontPage";
-
+import FrontPage from "./components/FrontPage/FrontPage";
+import { Route, Routes } from "react-router-dom";
+import { Form } from "./components/Form/Form";
 function App() {
   return (
     <div>
-      <FrontPage />
+      <Routes>
+        <Route path="/home" element={<FrontPage />}></Route>
+        <Route path="/objednavka" element={<Form />}></Route>
+      </Routes>
     </div>
   );
 }
