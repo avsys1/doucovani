@@ -5,7 +5,7 @@ function FrontPage() {
   useEffect(() => {
     axios
       .get("http://localhost:3001/test")
-      .then((results) => alert(results.data));
+      .then((results) => console.log(results));
   }, []);
   return (
     <div id="FrontPage">

@@ -3,12 +3,41 @@ import { FormOne } from "./SingleForms/FormOne";
 import { FormTwo } from "./SingleForms/FormTwo";
 import { FormThree } from "./SingleForms/FormThree";
 import { FormFour } from "./SingleForms/FormFour";
+import axios from "axios";
 
 import "./form.css";
 
 export function Form() {
   const [x, setX] = useState(1); // Musíme state, protože chceme ukazovat uživateli, v jakém je stádiu.
-  const forms = [<FormOne />, <FormTwo />, <FormThree />, <FormFour />];
+  const dataFromForms = useRef({
+    subject: "maths",
+    level: "beginner",
+    session: "beginner",
+    numberofstudents: "1",
+    onlineorperson: "online",
+    journey: "yes",
+    slovakianLanguage: "no",
+    gender: "man",
+  });
+
+  const handleInput = (key, value) => {
+    dataFromForms.current[key] = value;
+    console.log(dataFromForms);
+  };
+
+  const sendDataToServer = () => {
+    axios
+      .post("http://localhost:3001/tutorRequest", dataFromForms.current)
+      .then((results) => console.log(results));
+  };
+
+  const forms = [
+    <FormOne func={handleInput} />,
+    <FormTwo func={handleInput} />,
+    <FormThree func={handleInput} />,
+    <FormFour func={handleInput} />,
+  ];
+
   return (
     <div id="Form">
       <h1 className="text-xl">Jste na kroku: {x}</h1>
@@ -32,6 +61,14 @@ export function Form() {
       >
         Další krok
       </button>
+
+      {x == 4 ? (
+        <button onClick={() => sendDataToServer()}>
+          Odeslat a získat lektora
+        </button>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
